@@ -3,7 +3,7 @@ import re
 from collections import Counter, OrderedDict
 from os import path
 
-
+#regex = (?<!\w')(?<!'(?=%s'))(?:(?<=\b)|(?<=\s)|(?<=^))%s(?=\b|^|\s)(?!'\w)
 
 class FrequencyCheck():
 
@@ -19,7 +19,6 @@ class FrequencyCheck():
             words = re.findall(r'\w+', text.lower())
         else:
             return None
-
         return dict(OrderedDict(sorted(Counter(words).items(), key=lambda t: t[0])))
         #print(result)
 

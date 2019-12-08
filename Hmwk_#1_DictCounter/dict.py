@@ -1,45 +1,67 @@
 import itertools
 import re
+from collections import Counter, OrderedDict
 from os import path
 
-words = []
-resultDict = {}
+class FileFormatException():
+
+    def __init__(self, datasource):
+        #self.datasource = datasource
+        if not datasource.lower().endswith('.txt'):
+            print('Wrong file extension, file is not ".txt" !')
+        elif open(datasource, "r").getsize() == 0:
+            print('File is empty!')
+        else:
+            print('File with given name doesn\'t exist !')
 
 
-    #1 open  file with text
-FilePath = "Book.txt"
-source = open(FilePath, "r")
+
+class FrequencyCheck():
+
+    #access file needed to be processed
+    def __init__(self, textfile):    
+        if path.exists(textfile):
+            if not textfile.lower().endswith('.txt'):
+                raise FileFormatException(textfile)
+            else:
+                self.datasource = open(textfile, "r")
+        else:
+            raise FileFormatException(textfile)
 
 
-    ##2 define characters you need to escape when reading text
-#special = r"\\'{}$&#^_%~"
 
-    #read file, lowercase all words and push into string only words escaping special characters
+    #@classmethod
+    def get_freq(self):
+        text = self.datasource.read()
+        if text is not None:
+            words = re.findall(r'\w+', text.lower())
+        else:
+            return None
+        return dict(OrderedDict(sorted(Counter(words).items(), key=lambda t: t[0])))
+        #print(result)
 
-text = (" ".join(re.findall("[a-z\']+", source.read().lower())))
-print(text)
-
-#print(re.sub(r"(?<!\\)([" + special + "])", r"\\\1", text))
-
-
-    #3 split raw string into the list of words to be processed
-words = re.split(r'\s', text)
-
-print(words)
-#if text is not None:
-#        for word in words:
-#            # Word Exist?
-#            if word in hash_map:
-#                hash_map[word] = hash_map[word] + 1
-#            else:
-#                hash_map[word] = 1
-#        return hash_map
-#    else:
-#        return None
+    def get_freq_file(self):
+        #Put result into resultfile
+        result_file = "Frequency_check_" + textfile + str(path.getatime()) + ".txt"
+        frequency = open(result_file,"w+")
+        for item in result:
+            frequency.write(str(item) + "\n")
+        frequency.close()
 
 
-    #7 close the file after reading
-source.close()
+    # close the file after reading
+    def __exit__(self):
+        self.datasource.close()
+    
 
+        
 
-#re.sub(re.compile("<!\[.*?\]>"), "", "<![if support]> hello")
+def main():
+    doc = FrequencyCheck("xxx.txt")
+    result = doc.get_freq()
+    #doc.get_JSON(csvFilePath, target)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+
