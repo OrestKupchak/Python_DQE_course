@@ -75,7 +75,7 @@ class FrequencyCheck():
         
 
 def main():
-    doc = FrequencyCheck("xxx.docx")
+    doc = FrequencyCheck("dummy.txt")
     result = doc.get_freq()
 
     print(result)

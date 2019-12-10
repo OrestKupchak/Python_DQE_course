@@ -2,6 +2,8 @@ import itertools
 import re
 from collections import Counter, OrderedDict
 from os import path
+from datetime import datetime
+
 
 
 class FileException(Exception):
@@ -37,13 +39,16 @@ class FrequencyCheck():
     #Put result into resultfile
     def get_freq_file(self):
         
-        result_file = "Frequency_check_" + self.textfile + '_' + str(path.getatime(self.textfile)) + ".txt"
-        frequency = open(result_file,"w+")
+        result_file = "Frequency_check_" + str(datetime.fromtimestamp(path.getmtime(self.textfile)).strftime('%m-%d-%Y')) + '_' + self.textfile + '.txt'
+        self.frequency = open(result_file,"w+")
+        
         result = self.get_freq()
+        
         for word in result:
-            frequency.write(str(result[key] + " : " + result[value] + "\n")
-            #print(str(item) + "\n")
-        frequency.close()
+            #self.frequency.write(word, ":", str(result[word]))
+            self.frequency.write(word + ' : '+ str(result[word]) + '\n')
+            #print(word, str(result[word]) + "\n")
+        self.frequency.close()
 
 
 
@@ -70,19 +75,22 @@ class FrequencyCheck():
         return dict(OrderedDict(sorted(Counter(words).items(), key=lambda t: t[0])))
         
 
-
-
     # close the file after reading
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_value, traceback):
+        result = self.datasource.__exit__(exc_type, exc_value, traceback)
         self.datasource.close()
+        print("__exit__")
+        print('exit exception text: %s' % exc_value)
+        return result
     
 
         
 
 def main():
-    doc = FrequencyCheck("dummy.txt")
+    doc = FrequencyCheck("dummy.txt") #may use input value
     #result = doc.get_freq()
     doc.get_freq_file()
+
     #print(result)
 
 if __name__ == "__main__":
