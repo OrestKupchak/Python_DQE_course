@@ -1,12 +1,26 @@
+import random
+import board 
+
 fields_to_win = 3
 
 board = [
-        [17, 15, 1,  2,  3],
-        [75, 53, 4,  5,  6],
-        [71, 45, 7,  8,  9],
-        [27, 25, 10, 11, 12],
-        [37, 55, 9,  1,  1],
+        [0, 0, 1, 0, 1],
+        [1, 0, 1,  0, 0],
+        [1, 0, 1,  0, 0],
+        [1, 0, 0, 1, 0],
+        [1, 0, 0,  1,  1],
         ]
+
+
+#---------------------------------------------------
+#draw board/ set players/ apply player's choice to the board cells
+# TO DO
+
+
+
+#---------------------------------------------------
+#get columns, rows, diaginals from current board
+
 
 max_col = len(board[0]) #5
 max_row = len(board)    #5
@@ -20,8 +34,9 @@ rightToLeftDiagonal = [ list() for elements in range(len(leftToRightDiagonal))]
 
 min_rightToLeftDiagonal = -max_row + 1
 
-for row in board:
-    print(row)
+#for row in board:
+    #print(row)
+
 for x in range(max_col):
     for y in range(max_row):
         cols[x].append(board[y][x])
@@ -51,23 +66,23 @@ for valid in rightToLeftDiagonal:
         valid_rightToLeftDiagonal.append(valid)
 
 
-print("---------------------------------------------------")
-print(valid_verticals)
-print(valid_horizontals)
-print(valid_leftToRightDiagonal)
-print(valid_rightToLeftDiagonal)
-print("---------------------------------------------------")
+#print("---------------------------------------------------")
+#print(valid_verticals)
+#print(valid_horizontals)
+#print(valid_leftToRightDiagonal)
+#print(valid_rightToLeftDiagonal)
+#print("---------------------------------------------------")
 
 
 #---------------------------------------------------
-#combinations
+#define_win_combinations_map
 
 
 temp_res = list()
 
 def define_win_combinations_map(list):
     for comb in list:
-        if len(comb) >= 3:
+        if len(comb) >= fields_to_win:
             #print(comb)
              for i, item in enumerate(comb): #valid win combinations should be chunks
                 if len(comb[i:i+fields_to_win]) == fields_to_win: # with length of defined 'fields_to_win'
@@ -79,4 +94,30 @@ define_win_combinations_map(valid_horizontals)
 define_win_combinations_map(valid_leftToRightDiagonal)
 define_win_combinations_map(valid_rightToLeftDiagonal)
 
-print(temp_res)  
+#print(temp_res)  
+
+#------------------------------------------------------
+#compare current board with winning combinations
+
+def checkTotalTurns(fields_combination):
+    choice_results = 0
+    for choice_map in fields_combination:
+        print(choice_map)
+        for choice in choice_map:
+            choice_results += choice
+
+            print(choice, choice_results)
+            if choice_results == fields_to_win:
+                #print("Winner is player 'X' !")
+                return "Winner is player 'X' !"
+                break
+            elif choice_results == -fields_to_win:
+                #print("Winner is player 'O' !")
+                return "Winner is player '0' !"
+                break
+            #else:
+            #    print("It's a draw!")
+            #    #return "It's a draw!"
+
+
+checkTotalTurns(temp_res)

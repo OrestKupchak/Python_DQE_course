@@ -1,5 +1,5 @@
 import random
-import tictactoe_draft 
+import board 
 
 class Game():
 
@@ -26,7 +26,7 @@ class Game():
             return 'player'
 
     def newGameStart(self):
-        tictactoe_draft.main()
+        board.main()
 
     def playAgain(self):
         # This function returns True if the player wants to play again, otherwise it returns False.
