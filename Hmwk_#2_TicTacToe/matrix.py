@@ -1,3 +1,5 @@
+fields_to_win = 3
+
 board = [
         [17, 15, 1,  2,  3],
         [75, 53, 4,  5,  6],
@@ -45,12 +47,12 @@ print(leftToRightDiagonal)
 #print(rightToLeftDiagonal)
 valid_leftToRightDiagonal = []
 for valid in leftToRightDiagonal:
-    if len(valid) == 4 :
+    if len(valid) >= fields_to_win :
         valid_leftToRightDiagonal.append(valid)
 
 valid_rightToLeftDiagonal = []
 for valid in rightToLeftDiagonal:
-    if len(valid) == 4 :
+    if len(valid) >= fields_to_win :
         valid_rightToLeftDiagonal.append(valid)
 
 print(valid_leftToRightDiagonal)
