@@ -5,10 +5,10 @@ fields_to_win = 3
 
 board = [
         [0, 0, 1, 0, 1],
-        [1, 0, 1,  0, 0],
-        [1, 0, 1,  0, 0],
-        [1, 0, 0, 1, 0],
-        [1, 0, 0,  1,  1],
+        [0, 0, 1, -1, 0],
+        [0, 0, 0, -1, 0],
+        [1, 0, 0, -1, 0],
+        [1, 0, 0,  1, 1],
         ]
 
 
@@ -106,18 +106,22 @@ def checkTotalTurns(fields_combination):
         for choice in choice_map:
             choice_results += choice
 
-            print(choice, choice_results)
-            if choice_results == fields_to_win:
-                #print("Winner is player 'X' !")
-                return "Winner is player 'X' !"
-                break
-            elif choice_results == -fields_to_win:
-                #print("Winner is player 'O' !")
-                return "Winner is player '0' !"
-                break
-            #else:
-            #    print("It's a draw!")
-            #    #return "It's a draw!"
+            #print("choice_map --> ", choice_map, "; choice_results --> ", choice_results)
+            #print("[choice] = ",[choice],"choice_map[choice] = ", choice_map[choice], "; choice_results =", choice_results)
+
+        if choice_results == fields_to_win:
+            #print("Winner is player 'X' !")
+            print(choice_results, fields_to_win)
+            return print("Winner is player 'X' !")                
+        elif choice_results == -fields_to_win:
+            #print("Winner is player 'O' !")
+            print(choice_results, fields_to_win)
+            return print("Winner is player '0' !")               
+        else:
+            choice_results = 0
+        #    print("It's a draw!")
+        #    #return "It's a draw!"
+        choice_results = 0
 
 
 checkTotalTurns(temp_res)
