@@ -1,5 +1,25 @@
 import random
-#import board 
+
+
+def choose_game():
+    players = int(input("How many players will play? 0 or 1 or 2?"))
+
+    if players == 0:
+        #TODO
+    elif players == 1:
+        #TODO
+    elif players == 2:
+        #TODO
+    else:
+        return "That's a game for two!"
+
+
+
+# Select a random place for the player 
+def random_move(board, player): 
+    #TODO
+ 
+
 
 #---------------------------------------------------
 #draw board/ set players/ apply player's choice to the board cells
@@ -17,26 +37,12 @@ choices_board = [[0 for x in range(board_size)] for y in range(board_size)] #log
 max_col = len(choices_board[0]) 
 max_row = len(choices_board)    
 
-#print("Initialise choices_board: ", choices_board, "max_row: ", max_row)   
-
-#cols = [ []  for i in range(max_col)] 
-#rows = [ []   for i in range(max_row)]
-#leftToRightDiagonal = [ []  for i in range(max_row + max_col - 1)]
-#rightToLeftDiagonal = [ []  for i in range(len(leftToRightDiagonal))]
-
-
-
 
 cols = [ list() for elements in range(max_col)] 
 rows = [ list()  for elements in range(max_row)]
 leftToRightDiagonal = [ list() for elements in range(max_row + max_col - 1)]
 rightToLeftDiagonal = [ list() for elements in range(len(leftToRightDiagonal))]
 min_diag = -max_row + 1
-
-#print(" cols:", cols)
-#print(" rows:", rows)
-#print(" leftToRightDiagonal:", leftToRightDiagonal)
-#print(" rightToLeftDiagonal:", rightToLeftDiagonal)
 
 valid_verticals = []
 valid_horizontals = []
@@ -50,7 +56,7 @@ def render_board():
     placeholder = ''  #invisible cells within each board field, where players previous move's choice will be showed
     x_axis = ''      #sequence of numbers for user's navigation of fileds on 'X' axis
 
-    print('\n')
+    print('\n') #add margin between board and input 
 
     for i in range(len(board[0])):
         x_axis += str(i) + '      ' #add padding for alignment between axis flags 
@@ -65,6 +71,7 @@ def render_board():
         print(y_axis, placeholder)          #|
         placeholder = ''                    #|
     print(' ', horizontal*board_size)  
+    print('\n') #add margin between board and input 
 
 
 def cleanup_previous_check(choices_board):
@@ -74,12 +81,7 @@ def cleanup_previous_check(choices_board):
             rows[y].pop()  if rows[x] else None
         for y in range(max_row):    
             leftToRightDiagonal[x+y].pop() if leftToRightDiagonal[x+y] else None
-            rightToLeftDiagonal[x-y-min_diag].pop() if rightToLeftDiagonal[x-y-min_diag] else None
-    
-    #print("cleaned-up cols:", cols)
-    #print("cleaned-up rows:", rows)
-    #print("cleaned-up leftToRightDiagonal:", leftToRightDiagonal)
-    #print("cleaned-up rightToLeftDiagonal:", rightToLeftDiagonal)    
+            rightToLeftDiagonal[x-y-min_diag].pop() if rightToLeftDiagonal[x-y-min_diag] else None 
 
 #---------------------------------------------------
 #get columns, rows, diagonals from current board
@@ -93,20 +95,26 @@ def check_current_moves(choices_board):
             leftToRightDiagonal[x+y].append(choices_board[y][x])
             rightToLeftDiagonal[x-y-min_diag].append(choices_board[y][x])
 
-    #print("New move cols:", cols)
-    #print("New move rows:", rows)
-    #print("New move leftToRightDiagonal:", leftToRightDiagonal)
-    #print("New move rightToLeftDiagonal:", rightToLeftDiagonal)
-
 #------------------------------------------------------------
 #switch players and make moves on board
 
 player = 1 #define Player: 1 = 'X'/ 2 = 'O'
 def playerMove(player, board):
-    x = int(input("Player {}, please enter row (x): ".format(player))) #input x,y coordinates of field on board to make choice 
-    y = int(input("Player {}, please enter column (y): ".format(player)))
 
+    correct_input = True
+    while correct_input == True:
+        try:
+            y, x = input("Player {}, please enter coordinates for your move in format --> x,y): ".format(player)).split(',')
+            x = int(x)
+            y = int(y)
+        except ValueError:
+            print ("Invalid: Enter coordinates in correct format!")
+            continue
+        else:
+            correct_input = False
+            break
 
+    
     if board[x][y] == ' ':
         # Check whether x, y is a valid choice, that is: not taken yet
         if player == 1:
@@ -120,8 +128,7 @@ def playerMove(player, board):
     else:
         print("You can move on empty fileds only!")
         playerMove(player, board)
-    #print("Current 'choices_board': ", choices_board)
-#move = playerMove(board)
+
 
 
 
@@ -147,14 +154,6 @@ def validate_moves():
         if len(valid) >= fields_to_win :
             valid_rightToLeftDiagonal.append(valid)
 
-    #print("valid_verticals : ", valid_verticals)
-    #print("valid_horizontals : ", valid_horizontals)
-    #print("valid_leftToRightDiagonal : ", valid_leftToRightDiagonal)
-    #print("valid_rightToLeftDiagonal : ", valid_rightToLeftDiagonal)
-
-
-    #return valid_verticals, valid_horizontals, valid_leftToRightDiagonal, valid_rightToLeftDiagonal
-
 #---------------------------------------------------
 #define_win_combinations_map
 
@@ -162,14 +161,11 @@ temp_res = list() #prepare structure to store interim results
 
 def define_win_combinations_map(list):
     for comb in list:
-        #print("Current combination checking: ", comb)
         if len(comb) >= fields_to_win:
 
              for i, item in enumerate(comb):                      # valid win combinations should be chunks 
                 if len(comb[i:i+fields_to_win]) == fields_to_win: # with length of defined 'fields_to_win'
                     temp_res.append(comb[i:i+fields_to_win]) 
-    #print("Curernt temp_res: ", temp_res)    
-#valid_verticals, valid_horizontals, valid_leftToRightDiagonal ,valid_rightToLeftDiagonal  = check_current_moves(choices_board)
 
 def boards_status():
     define_win_combinations_map(valid_verticals)
@@ -184,21 +180,14 @@ def boards_status():
 def checkTotalTurns(fields_combination): 
     choice_results = 0
     for choice_map in fields_combination:
-        #print("fields_combination :", fields_combination, "choice_map: ", choice_map)
         for choice in choice_map:
-            #print("choice: ", choice)
             choice_results += choice
-            #print(choice_results)
         if choice_results == fields_to_win:
-            #print(choice_results, fields_to_win)
-            #return print("Winner is player 'X' !")   
             return "Winner is player 'X' !"               
         elif choice_results == -fields_to_win:
-            #print(choice_results, fields_to_win)
             return "Winner is player '0' !"             
         else:
             choice_results = 0
-        #choice_results = 0
 1
 
 
