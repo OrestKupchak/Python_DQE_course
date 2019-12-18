@@ -1,6 +1,6 @@
 vertical = '|    |'
 horizontal = ' ____ '
-board_size = 5
+board_size = 3
 
 matrix = [[' ' for x in range(board_size)] for y in range(board_size)] 
 print(matrix)
@@ -8,17 +8,19 @@ print(matrix)
 x_axis = ''
 for i, item in enumerate(matrix[0]):
     x_axis += str(i) + '  '
-print(x_axis)
+
+print(('  ')*board_size , x_axis)
 
 
 for i, item in enumerate(matrix):
-    print(i)
-    for j in enumerate(item):
-        print(j)
-        print(matrix[i][j])
-        #print(" 0   " + matrix[i][j] + " | " + matrix[i][j] +" | " + matrix[i][j] +" ")
-
-
+    #print(i)
+    print("    ---+---+---")
+    for j, item in enumerate(item):
+        #print(j)
+        #print(matrix[i][j])
+        print(" " + str(j) + "   " + matrix[i][j] + " | " + matrix[i][j] +" | " + matrix[i][j] +" ")
+        print("    ---+---+---")
+        
 
 #print("     0   1   2  ")
 #print([ list()] in range board_size).split()
