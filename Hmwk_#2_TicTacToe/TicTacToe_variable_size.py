@@ -1,9 +1,48 @@
 import random
 import time
 
-def choose_game_mode(): #define  game_mode = 0 (PC vs. PC) / game_mode = 1 (player vs. PC) / game_mode = 2 (player vs. player)
-    game_mode = 0
-    players = int(input("How many players will play? 0 or 1 or 2? Put an integer value: "))
+
+#-----------------------------------------------------------------------------------------------------
+#define Board size and number of field to be considered as winning sequence
+
+def choose_game_rules(): #define  game_mode = 0 (PC vs. PC) / game_mode = 1 (player vs. PC) / game_mode = 2 (player vs. player)
+   
+    correct_input = True
+    while correct_input == True:
+        try:
+            board_size = int(input("What row-column size of a board you would like to play? Put an integer value: "))
+            fields_to_win = int(input("How many fields would be considered as victory? Put an integer value:  "))
+ 
+            if fields_to_win > board_size:
+                raise ValueError
+        except ValueError:
+            if fields_to_win > board_size:
+                print ("Cannot be bigger that board size") 
+            else:
+                print ("Put an integer value!")      
+        else:
+            correct_input = False
+            break
+    return board_size, fields_to_win
+
+def set_game_mode():
+
+    correct_input = True
+    while correct_input == True:
+        try:
+            players = int(input("How many players will play? 0 or 1 or 2? Put an integer value: "))
+
+            if players > 2:
+                raise ValueError
+        except ValueError:
+            if players > 2:
+                print("That's a game for two!")
+            else:
+                print ("Put an integer value!")      
+        else:
+            correct_input = False
+            break
+
     if players == 0:
         game_mode = 0
         print("Watch the clash of two AIs !")
@@ -13,30 +52,15 @@ def choose_game_mode(): #define  game_mode = 0 (PC vs. PC) / game_mode = 1 (play
     elif players == 2:
         game_mode = 2
         print("Prepare to defeat your opponent ")
-    else:
-        print("That's a game for two!")
-        game_mode = choose_game_mode()
+
     return game_mode
 
-#---------------------------------------------------
-#define Board szie and number of field to be considered as winning sequence
-
-correct_input = True
-while correct_input == True:
-        try:
-            board_size = int(input("What row-column size of a board you would like to play? Put an integer value: "))
-            fields_to_win = int(input("How many fields would be considered as victory? Put an integer value:  "))
-        except ValueError:
-            print ("Put an integer value!")
-            continue
-        else:
-            correct_input = False
-            break
-
-#------------------------------------------------------------------------------
-#prepare structures for rednering board/storing columns, rows, diagonals
+#-----------------------------------------------------------------------------------------------------
+#Constants and variables to prepare structures for rednering board/storing columns, rows, diagonals
 vertical = '|     |'
 horizontal = ' _____ ' 
+
+board_size, fields_to_win  = choose_game_rules()   #set game rules to play
 
 board = [[' ' for x in range(board_size)] for y in range(board_size)] #grafical board 'X'/'O'
 choices_board = [[0 for x in range(board_size)] for y in range(board_size)] #logical board 1/-1 to store players moves for win check
@@ -55,14 +79,14 @@ valid_horizontals = []
 valid_leftToRightDiagonal = []
 valid_rightToLeftDiagonal = []
 
-empty_fields = list()       #prepare list of tuples storing coordinates of not yet filled fields on board after each turn
+empty_fields = list()       #for auto play prepare list of tuples storing coordinates of not yet filled fields on board after each turn
 coordinate = tuple()
 for x in range(max_col):
     for y in range(max_row):  
         coordinate = (x,y)
         empty_fields.append(coordinate)
 
-#------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 #draw graphical board of given size
 def render_board(): 
     placeholder = ''  #invisible cells within each board field, where players previous move's choice will be showed
@@ -85,9 +109,9 @@ def render_board():
     print('  ', horizontal*board_size)  
     print('\n')     #add margin between board and input 
 
-#---------------------------------------------------
-#cleanup structures from previous turn for next check of current board state
-def cleanup_previous_check(choices_board):
+#-----------------------------------------------------------------------------------------------------
+#yeanup structures from previous turn for next check of current board state
+def yeanup_previous_check(choices_board):
     for x in range(max_col):
         for y in range(max_row):
             cols[x].pop()  if cols[x] else None
@@ -96,11 +120,11 @@ def cleanup_previous_check(choices_board):
             leftToRightDiagonal[x+y].pop() if leftToRightDiagonal[x+y] else None
             rightToLeftDiagonal[x-y-min_diag].pop() if rightToLeftDiagonal[x-y-min_diag] else None 
 
-#---------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 #get columns, rows, diagonals from current board
 def check_current_moves(choices_board):
         #populate respective structures with data from current board state
-    cleanup_previous_check(choices_board)       #cleanup structures from previous turn for next check of current board state
+    yeanup_previous_check(choices_board)       #yeanup structures from previous turn for next check of current board state
     for x in range(max_col):
         for y in range(max_row):
             cols[x].append(choices_board[y][x])
@@ -108,7 +132,7 @@ def check_current_moves(choices_board):
             leftToRightDiagonal[x+y].append(choices_board[y][x])
             rightToLeftDiagonal[x-y-min_diag].append(choices_board[y][x])
 
-#------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 #Playesr make moves on board
 
 #computer player move logic to play in game_mode = 0 (PC vs.PC) and game_mode = 1 (player vs.PC)
@@ -127,13 +151,13 @@ def auto_playerMove(player, board):
             board[x][y] ='0'
             choices_board[x][y] = -1
             empty_fields.pop(empty_fields.index((x,y)))
-        time.sleep(2)  #add time delay for slower and realistic player's turns rendering
-        print("Player {}, made his move on --> row_number, col_number: ".format(player), x, ',',y)    
+        time.sleep(2.5)  #add time delay for slower and realistic player's turns rendering
+        print("Player {}, made his move on --> row_number, col_number: ".format(player), x, ',',y)
             #return choices_board
         check_current_moves(choices_board)
 
 
-#humanplayer move logic to play in game_mode = 1 (player vs.PC) and game_mode = 2  (player vs. player)
+#human player move logic to play in game_mode = 1 (player vs.PC) and game_mode = 2  (player vs. player)
 def playerMove(player, board):
 
     correct_input = True
@@ -143,21 +167,19 @@ def playerMove(player, board):
             x = int(x)
             y = int(y)
 
-            if x > max_col-1:
-                print ("Coordinate is out of the board!")
-                playerMove(player, board)
-            if y > max_row-1:
-                print ("Coordinate is out of the board!")
-                playerMove(player, board)
-        except ValueError:
-            print ("Invalid: Enter coordinates in correct format!")
-            continue
-        else:
-            correct_input = False
+            if x > max_col-1 or y > max_row-1:
+                raise IndexError
             break
-
-    print("X == ", x, "Y == ", y, board, "board[x][y] == ", board[x][y])
-    if board[x][y] == ' ':
+        except ValueError:
+            print ("Invalid: Enter coordinates in correct format!")   
+        except IndexError:
+            print ("Coordinate is out of the board!")
+        else:  
+            break
+    
+    print(x,y)
+        
+    if board[x][y] != 'X' or board[x][y] != '0':
         # Check whether x, y is a valid choice, that is: not taken yet
         if player == 1:
             board[x][y] = 'X'       #show choice on visual board
@@ -170,10 +192,9 @@ def playerMove(player, board):
     else:
         print("You can move on empty fileds only!")
         playerMove(player, board)
-    print("X == ", x, "Y == ", y, board, "board[x][y] == ", board[x][y])
 
 
-#---------------------------------------------------------      
+#-----------------------------------------------------------------------------------------------------      
 #check_current_moves(move), only posiible win combiantions of filed for definex 'size' and 'fields_to_win' values
 def validate_moves(): 
     #check_current_moves(move)   #receive current state of board after each player's move
@@ -195,7 +216,7 @@ def validate_moves():
         if len(valid) >= fields_to_win :
             valid_rightToLeftDiagonal.append(valid)
 
-#---------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 #define_win_combinations_map
 
 temp_res = list() #prepare structure to store interim results
@@ -215,7 +236,7 @@ def boards_status():
     define_win_combinations_map(valid_rightToLeftDiagonal)
 
 
-#------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 #compare current board with winning combinations
 
 def checkTotalTurns(fields_combination): 
@@ -231,13 +252,13 @@ def checkTotalTurns(fields_combination):
             choice_results = 0
         #return "It's a draw !"  
 
-#--------------------------------------
+#-----------------------------------------------------------------------------------------------------
 #play Game
 
 def playGame():
     finished = False                    #stop flag set to flase
-    game_mode = choose_game_mode()      #set game mode to play
     player = random.randrange(1, 2, 1)  #define Player: 1 = 'X'/ 2 = 'O' randomly
+    game_mode = set_game_mode()
     while not finished:
         render_board()                  # print board with current state after previous move
         if game_mode == 0:
@@ -258,9 +279,9 @@ def playGame():
             finished = True         
         player = 3 - player             # switch players 1/2
 
+#-----------------------------------------------------------------------------------------------------
 
-
-def main():
+def main(): #launch the game
     playGame()
 
 if __name__ == "__main__":
