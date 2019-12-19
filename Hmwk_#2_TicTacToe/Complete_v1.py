@@ -177,7 +177,7 @@ def checkTotalTurns(fields_combination):
 def playGame():
     finished = False
     player = 1  #define Player: 1 = 'X'/ 2 = 'O'
-    check_current_moves(choices_board)
+    #check_current_moves(choices_board)
     while not finished:
         render_board()                  # print board with current state after previous move
         playerMove(player, board)               # make another player move (set value to board on empty field)
