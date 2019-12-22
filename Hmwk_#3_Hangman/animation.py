@@ -1,8 +1,28 @@
 #from graphics import *
 
-draw_legs()
 
-man_animation = '  '
+
+wordlist = ['zenith', 'zealot', 'yearn', 'yawner', 'xenophobia', 'x-axis', 'wonky', 'wanton', 'vermillion', 'vague', 'unique', 'uncanny'
+, 'tenacious', 'tangible', 'serene', 'saquinavir', 'rhetorical', 'rambunctious', 'quixotic', 'quell', 'pique', 'paradigm'
+, 'oxymoron', 'optimistically', 'nostalgic', 'narrative', 'misanthrope', 'melancholy', 'lucid', 'lethargic', 'ken'
+, 'karma', 'jurisdiction', 'jejune', 'irony', 'integrity', 'hypnosis', 'hyperbole', 'guise', 'gallivant', 'fortitude']
+
+#for word in wordlist:
+#    if word.isalpha() == True:
+#        print("All characters are alphabets")
+#    else:
+#        print("All characters are not alphabets.")
+#    print(len(word.strip('')))
+
+
+#word_len_request = True
+#while word_len_request == True:
+#
+#    word_len = 
+#    response = input("Is this a {} letter(s) word? Y / N ...")
+
+word = 'jurisdiction'
+letters = len(word)
 
 '''
 mask_animation = "__ "
@@ -16,27 +36,48 @@ print("End!")
 
 
 man = '''
-            
-        ( )
-        /|\
-       / | \  
-        / \ 
-       /   \ 
-            '''
+   +---+
+   |   |
+   O   |
+  /|\  |
+  / \  |
+       |
+ =========
+ '''
 
-def drawStickFigure():
-    win = GraphWin("Stick figure")
-    head = Circle(Point(100, 60), 20)
-    head.draw(win)
-    body = Line(Point(100, 80), Point(100, 120))
-    body.draw(win)
-    arms= Line(Point(0, 100), Point(0, 100))
-    arms.draw(win)
+#hang_parts = ['   +---+', '   |   |',  '       |', '       |', '       |', '       |', ' =========']
+#man_parts =  ['   +---+', '   |   |',  '   O   |', '   |   |', '  /|   |', '  /|\  |', '  /    |','  / \  |','       |',' =========']
 
-#for the second question i have to draw a circle which is at the centre of the graphics window. the user inputs the radius of the circle and the circle should come. But for some reasn my code doesnt seem to be working please help
+parts = [['   +---+', '   +---+'], 
+         ['   |   |', '   |   |'],
+         ['       |', '   O   |'],
+         ['       |', '   |   |'],
+         ['       |', '  /|   |'],
+         ['',         '  /|\  |'],
+         ['       |', '  /    |'],
+         ['       |','  / \  |'],
+         ['       |','       |'], 
+         [' =========',' =========']
+         ]
 
-def drawCircle():
-    x = input("please enter the radius of the circle: ")
-    centre= Point(100, 100)
-    circle1 = Circle(centre, x)
-    circle1.draw(win)
+letter = 'd'
+guess_try = 's'
+
+
+for part in range(len(parts)):
+    #if guess_try != letter:
+    #    print(part[0])
+    #else:
+    #    print(part[1])
+    print(part)
+
+
+
+
+
+word = 'jurisdiction'
+letters = len(word)
+#print(letters)
+word_placeholder = [' __' for letter in range(letters)]
+mask = ' '.join([' __' for letter in range(letters)]) 
+print('\n' + mask + '\n')
