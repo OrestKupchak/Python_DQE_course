@@ -5,7 +5,7 @@ from collections import Counter, OrderedDict
 #from os import path
 from datetime import datetime
 
-file_to_read = "dummy.txt"
+file_to_read = "words.txt"
 
 class FileException(Exception):
 
@@ -53,7 +53,8 @@ class Hangman():
 
         #if file is not empty check text using defined patter
         if text is not None:
-            words_list = text.split()
+            #words_list = text.split()
+            words_list = str(text)
         else:
             print('No text found!')
             raise FileException(self.textfile)
@@ -66,15 +67,15 @@ class Hangman():
     def __exit__(self, exc_type, exc_value, traceback):
         result = self.datasource.__exit__(exc_type, exc_value, traceback)
         self.datasource.close()
-        print("__exit__")
+        #print("__exit__")
         return result
     
 
         
 # pass "file_name.txt" and type of result "on_screen"/"in_file"
 def main(file, result_type = None):
-    hangman_words.get_data()
-
+    #hangman_words.get_data()
+    get_data()
     return None 
 
 
@@ -86,6 +87,7 @@ if __name__ == "__main__":
     #filename = input("Enter file name to check words: ") 
     filename = file_to_read
     
-    with Hangman(filename) as hangman_words:
-        main(filename)
+    #with Hangman(filename) as hangman_words:
+    #    main(filename)
 
+    main(filename)
