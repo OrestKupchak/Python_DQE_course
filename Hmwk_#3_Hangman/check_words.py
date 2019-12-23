@@ -3,26 +3,12 @@ import sys
 import random
 from collections import Counter
 
-import hangman_readFile
-
-
-'''
-
-wordlist = ['zenith', 'zealot', 'yearn', 'yawner', 'xenophobia', 'x-axis', 'wonky', 'wanton', 'vermillion', 'vague', 'unique', 'uncanny'
-, 'tenacious', 'tangible', 'serene', 'saquinavir', 'rhetorical', 'rambunctious', 'quixotic', 'quell', 'pique', 'paradigm'
-, 'oxymoron', 'optimistically', 'nostalgic', 'narrative', 'misanthrope', 'melancholy', 'lucid', 'lethargic', 'ken'
-, 'karma', 'jurisdiction', 'jejune', 'irony', 'integrity', 'hypnosis', 'hyperbole', 'guise', 'gallivant', 'fortitude']
-'''
-
-#wordlist = str(open( "words.txt", "r").read())
-#print(wordlist)
-
 
 def get_words(filename):
-    wordlist = str(open(filename, "r").read())
-    #print("wordlist ", wordlist)
-    print(random.choice(wordlist.strip('\s')))
-    return wordlist
+    #wordlist = str(open(filename, "r").read())
+    wordlist = str(open(filename, "r").readlines())
+    print(wordlist)
+    return [word.strip().lower() for word in wordlist]
 #for word in wordlist:
 
     #if word.isalpha() == True:
@@ -35,23 +21,23 @@ def get_words(filename):
     
 
 
-'''
-guess_try = ''
-failed = 0
-guesses = 10
-while guesses > 0:
-    pass
-    if guesses == 1:
-        print("You have last try left...!")
-    elif guesses == 1:
-        print("Out of tries, you;ve lost!")
-        failed = 1
-    else:
-        if guess_try == word:
-            print("Correct, you've suess the word!")
+def guess_counter():
+    guess_try = ''
+    failed = 0
+    guesses = 10
+    while guesses > 0:
+        pass
+        if guesses == 1:
+            print("You have last try left...!")
+        elif guesses == 1:
+            print("Out of tries, you;ve lost!")
+            failed = 1
         else:
-            print("Nope, it's not that word! Try once more...")
-'''
+            if guess_try == word:
+                print("Correct, you've suess the word!")
+            else:
+                print("Nope, it's not that word! Try once more...")
+
 
 
 
