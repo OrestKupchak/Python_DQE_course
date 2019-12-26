@@ -39,7 +39,7 @@ def guess_counter(word):
                 print("Correct, you've suess the word!")
             else:
                 print("Nope, it's not that word! Try once more...")
-
+    return guesses
  
 def choose_word(text):
     words = text
