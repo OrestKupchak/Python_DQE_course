@@ -39,95 +39,70 @@ def guess_counter(word):
                 print("Correct, you've suess the word!")
             else:
                 print("Nope, it's not that word! Try once more...")
-
+    return guesses
  
 def choose_word(text):
     words = text
     #print("words",words )
     #randomize = input("Do you want to choose word by yourself or select a word randmoly? Choose / Random...")
     wordlist = [word.lower().strip() for word in words.readlines()]
+    randomize = 'Random' #remove later
 
-    randomize = 'Random'
     if randomize == 'Choose':
         word_to_guess =  input("Choose the word from to be guessed from a list")
     elif randomize == 'Random':
         word_to_guess = random.choice(wordlist)
-        #print("Word to guess is :", word_to_guess)
     return word_to_guess
-
+#------------------------------------------------------------------------
 def counter(letter_freq, char):
     if char.isalpha() == True:
         letter_freq[char] = letter_freq.get(char, 0) + 1
-    return letter_freq
+    freq_sorted = sorted(letter_freq.items(), key=lambda x: x[1])
+    return freq_sorted
 
 def get_letter_freq(text):
     text.seek(0) #go to beginning if the file to avoid reopening
     characters = text.read()
-    #print("characters ",characters)
-    #print("reduce (counter, text, {})", reduce (counter, characters, {}))
     return reduce (counter, characters, {})
-    
+#------------------------------------------------------------------------    
 def pick_up_letter(letters_freq):
     letter = ''
-    #print("letters_freq: ", letters_freq)
 
     for char, freq in letters_freq.items():
-        if char.isalpha():
-            #print(char, freq )
             letter = char
-        #print("pick_up_letter: ", letter, "freq: ", freq )
     return letter
 
-
-
-
-#pick_up_letter()
 def letter_appearance(word_to_guess, letter):
     #letter_approval = input("Is there a letter '%s' in a word? Y / N..." % (letter))
-    #letter_approval = 'N'
-    
-    word_letters = set([ch for ch in word_to_guess])
-    #print("word_letters ", word_letters)
-
-    if letter in word_letters:
-        letter_approval ='Y'    
-    elif letter not in word_letters:
-        letter_approval = 'N'
+    letter_approval = 'N' #remove later
+    word_letters = word_to_guess.split()
+    if letter_approval == 'Y':
+        pass
+    elif letter_approval == 'N':
+        pass
     else:
         raise ValueError
     
     return letter_approval
 
-def draw_mask(word_to_guess, letter_approval):
+def draw_mask(word_to_guess):
     letters_num = len(word_to_guess)
-    #print(letters)
     word_placeholder = [' __' for letter in range(letters_num)]
-    #if letter_approval
-
     mask = '\n' + ' '.join(word_placeholder) + '\n'
     print(mask)
     return mask
 
-    #mask_animation = "__ "
-    #for i in range(100):
-    #    time.sleep(0.1)
-    #    sys.stdout.write("\r" + mask[i % len(mask)])
-    #    sys.stdout.flush()
-    #print("End!")
+
+
 
 def main():
     words = get_words("dummy.txt")
     characters = words
-    #print("words ", words)
     word_to_guess = choose_word(words)
-    print("word_to_guess ",word_to_guess)
-    letter_freq = get_letter_freq(characters) #read ???
-   
-    print("letter_freq ",letter_freq)
+    letter_freq = get_letter_freq(characters) 
     letter = pick_up_letter(letter_freq)
-    print("letter ",letter)
-    letter_approval = letter_appearance(word_to_guess, letter)
-    print("letter_approval", letter_approval)
-    draw_mask(word_to_guess, letter_approval)
+    letter_appearance(word_to_guess, letter)
+    draw_mask(word_to_guess)
+    guess = guess_counter()
 main()  
 
