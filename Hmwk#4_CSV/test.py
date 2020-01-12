@@ -1,11 +1,8 @@
 import csv
 import os
 import sys
+import argparse
 from typing import List, Union
-
-print("This is the name of the script: ", sys.argv[0])
-print("Number of arguments: ", len(sys.argv))
-print("The arguments are: " , str(sys.argv))
 
 
 print('Number of arguments:', len(sys.argv), 'arguments.')
@@ -13,9 +10,9 @@ print('Argument List (sys.argv):', str(sys.argv))
 
 
 #check for file
-path_csv  = sys.argv[0] #path to directory c:\smth or /smth
-putextension = sys.argv[1] #file extension in format .smth
-columnname = sys.argv[2]  #column name to retrieve data from
+path_csv  = sys.argv[1] #path to directory c:\smth or /smth
+putextension = sys.argv[2] #file extension in format .smth
+columnname = sys.argv[3]  #column name to retrieve data from
 
 result: List[Union[bytes, str]] = []            #store path + file, if exists in passed directory
 print("path_csv: ", path_csv)
@@ -75,4 +72,6 @@ parser.add_argument('--sum', action='store_const',
 args = parser.parse_args()
 print(args.integers)
 print(args.sum(args.integers))
-'''                        
+'''
+
+
