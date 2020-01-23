@@ -1,4 +1,3 @@
-Learn more or give us feedback
 import argparse
 import csv
 import os
