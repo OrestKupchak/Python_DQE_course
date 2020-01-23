@@ -1,7 +1,6 @@
 import argparse
 import csv
 import os
-import sys
 import re
 from typing import List, Union
 
@@ -10,8 +9,8 @@ from typing import List, Union
 
 def getArgs(argv = None): 
     parser = argparse.ArgumentParser(description='Add filepath to file to read from.') #add arguments
-    parser.add_argument('-f','--filepath', type=str,help='path to file needed to read')
-    parser.add_argument('-c','--columnname', type=str,help='column from csv file needed to read')
+    parser.add_argument('filepath', type=str,help='path to file needed to read')
+    parser.add_argument('columnname', type=str,help='column from csv file needed to read')
 
     return parser.parse_args(argv) #return arguments passed from cmd
 
@@ -44,7 +43,7 @@ def checkFile(args):
             if os.path.split(item)[1] == os.path.basename(path_csv):
                 csv_to_read = item    
 
-    if csv_to_read == None:
+    if csv_to_read is None:
         print('There is no file with "{}" name in "{}" folder'.format(filename, dirroot)) #if file doesn't exsit - stop processing
  
     return csv_to_read, columnname
@@ -59,7 +58,7 @@ def getData(csv_to_read, columnname):
             #get fieldnames from DictReader object and store in list
             headers = d_reader.fieldnames
             
-            if columnname not in headers == True: 
+            if columnname not in headers: 
                 print('No column with "{}" name in "{}" file found'.format(columnname, os.path.split(csv_to_read)[1]))
                 
             #print value in <column_name> for each row
@@ -71,9 +70,7 @@ def getData(csv_to_read, columnname):
 
 
 def main():
-    argvals = None       #init
-
-    args = getArgs(argvals) 
+    args = getArgs() 
     csvfile, column = checkFile(args)
     getData(csvfile, column)
 
