@@ -13,8 +13,7 @@ routes = [
 
 def dispatch(routes, default_route, environ, start_response):
     path = environ['PATH_INFO']
-    params = cgi.FieldStorage(environ['wsgi.input'],
-                              environ=environ)
+    params = cgi.FieldStorage(environ['wsgi.input'], environ = environ)
     method = environ['REQUEST_METHOD'].lower()
     environ['params'] = params
     handler = routes.get((method, path), default_route)

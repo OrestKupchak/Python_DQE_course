@@ -8,10 +8,10 @@ def notfound_404(environ, start_response):
 _hello_resp = (
                '    <html>\n'
                '        <head>\n'
-               '            <title>Hello {name}</title>\n'
+               '            <title>Hello {names}</title>\n'
                '        </head>\n'
                '        <body>\n'
-               '            <h1>Hello {name}!</h1>\n'
+               '            <h1>Hello {names}!</h1>\n'
                '        </body>\n'
                '    </html>')
 
@@ -19,7 +19,7 @@ _hello_resp = (
 def hello_world(environ, start_response):
     start_response('200 OK', [('Content-type', 'text/html')])
     params = environ['params']
-    resp = _hello_resp.format(name=params.getvalue('name'))
+    resp = _hello_resp.format(names = params.getvalue('name'))
     yield resp.encode('utf-8')
 
 
@@ -40,11 +40,6 @@ def localtime(environ, start_response):
     yield resp.encode('utf-8')
 
 
-def image(environ, start_response):
-    start_response('200 OK', [('Content-type', 'text/css')])
-    resp = _img_resp.format(img_net='http://logosolusa.com/wp-content/uploads/parser/Elvis-Logo-1.jpg')
-    yield resp.encode('utf-8')
-
 #html code to display image in browser
 _img_resp =('<html xmlns="http://www.w3.org/1999/xhtml">\n'
                    '        <head>\n'
@@ -54,4 +49,12 @@ _img_resp =('<html xmlns="http://www.w3.org/1999/xhtml">\n'
                    '            </head>\n'
                    '            <body>\n'
                    '            <img src="{img_net}" alt="Image to server" />\n'
+                   '            <iframe width="420" height="315" src="https://www.youtube.com/watch?v=xqBdTn3_0Rw></iframe>'
                    '       </body></html>')
+
+def image(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/html')])
+    resp = _img_resp.format(img_net='http://logosolusa.com/wp-content/uploads/parser/Elvis-Logo-1.jpg')
+    yield resp.encode('utf-8')
+
+
