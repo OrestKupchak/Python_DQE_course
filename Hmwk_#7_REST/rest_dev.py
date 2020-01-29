@@ -1,10 +1,11 @@
 import cgi
 from wsgiref.simple_server import make_server
 from functools import partial
-from resttest import hello_world, localtime, image, notfound_404
+from resttest import hello_world, localtime, image, notfound_404, homepage
 
 
 routes = [
+    ('get', '/homepage', homepage),
     ('get', '/hello', hello_world),
     ('get', '/localtime', localtime),
     ('get', '/image', image) #new method for image displaying by link

@@ -1,9 +1,13 @@
 import time
+import codecs
 
+
+_notfound_resp = codecs.open('404_notfound.html', 'r').read() #added pretty image for 404 page from separat html file
 
 def notfound_404(environ, start_response):
-    start_response('404 Not Found', [('Content-type', 'text/plain')])
-    return [b'Not Found']
+    start_response('404 Not Found', [('Content-type', 'text/html')]) #changed plane text with css styled image
+    resp = _notfound_resp
+    yield resp.encode('utf-8')
 
 _hello_resp = (
                '    <html>\n'
@@ -48,13 +52,21 @@ _img_resp =('<html xmlns="http://www.w3.org/1999/xhtml">\n'
                    '            <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />\n'
                    '            </head>\n'
                    '            <body>\n'
-                   '            <img src="{img_net}" alt="Image to server" />\n'
+                   '            <img src="{img_net}"  alt="Image to server" />\n' #added python logos image as required in task
                    '            <iframe width="420" height="315" src="https://www.youtube.com/watch?v=xqBdTn3_0Rw></iframe>'
                    '       </body></html>')
 
 def image(environ, start_response):
     start_response('200 OK', [('Content-type', 'text/html')])
-    resp = _img_resp.format(img_net='http://logosolusa.com/wp-content/uploads/parser/Elvis-Logo-1.jpg')
+    #resp = _img_resp.format(img_net='http://logosolusa.com/wp-content/uploads/parser/Elvis-Logo-1.jpg')
+    resp = _img_resp.format(img_net='https://pbs.twimg.com/media/DoWFs9LXcAAkOKI.jpg')
     yield resp.encode('utf-8')
 
+
+_homepage_resp = codecs.open('homepage.html', 'r').read() #added homepage ling and layout from separat html file
+
+def homepage(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/html')])
+    resp = _homepage_resp
+    yield resp.encode('utf-8')
 

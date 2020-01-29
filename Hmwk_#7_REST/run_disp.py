@@ -1,13 +1,14 @@
 import cgi
 from wsgiref.simple_server import make_server
 from functools import partial
-from resttest import hello_world, localtime, image, notfound_404
+from resttest import hello_world, localtime, image, notfound_404, homepage
 
 
 routes = [
+    ('get', '/homepage', homepage),
     ('get', '/hello', hello_world),
     ('get', '/localtime', localtime),
-    ('get', '/image', image)
+    ('get', '/image', image) #new method for image displaying by link
     ]
 
 
@@ -28,13 +29,13 @@ def compile_routes(routes_list):
 
 
 if __name__ == '__main__':
-    # Создаем диспетчер и регистрируем функции
+    # Create disatcher and register our finctions
     dispatcher = partial(
         dispatch,
         compile_routes(routes),
         notfound_404)
 
-    # Запускаем базовый сервер
+    # run basic server
     httpd = make_server('', 8080, dispatcher)
     print('Serving on port 8080...')
     httpd.serve_forever()
