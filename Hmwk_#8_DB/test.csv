@@ -1,0 +1,10 @@
+project_name,project_description,project_deadline,task_priority,task_details,task_status,task_deadline,task_completed,
+Project Alpha,Data migration project from SAP to Oracle,12-31-2020,urgent,Create initinal pipeline POC,in progress,02-29-2020,01-25-2020,
+Project Alpha,Data migration project from SAP to Oracle,12-31-2020,medium,Create mappings betweeen legacy and new systems,new,04-29-2020,03-25-2020,
+Project Alpha,Data migration project from SAP to Oracle,12-31-2020,medium,Write documentation,on hold,08-20-2020,06-18-2020,
+Project Beta,Web application for e-banking,12-25-2020,urgent,Gather requirements,in progress,02-29-2020,02-22-2020,
+Project Beta,Web application for e-banking,12-25-2020,medium,Develop DWH for transactional data,new,02-29-2020,02-11-2020,
+Project Beta,Web application for e-banking,12-25-2020,medium,E2E testing,on hold,02-29-2020,02-29-2020,
+Project Omega,Fitness mobile app for iOS development,11-08-2020,urgent,Design development,in progress,04-29-2020,03-12-2020,
+Project Omega,Fitness mobile app for iOS development,11-08-2020,medium,Scope of dunctionality discussions,new,04-29-2020,04-07-2020,
+Project Omega,Fitness mobile app for iOS development,11-08-2020,medium,Add integration with Android,on hold,04-29-2020,04-19-2020
